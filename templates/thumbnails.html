@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link href="css/pc_fb_tab.css" rel="stylesheet" type="text/css" />
+ <script src="js/jquery.js"></script> 
+    <script type = "text/javascript">
+		function morephotos(counter)
+		{
+			
+			var this_url = "class.gallery.php?m=more_photos&counter="+counter;
+			
+			$.ajax({
+				type: "GET",
+				dataType: "html",
+				url: this_url,
+				success: function(msg){
+					$("#mycontainer").html('');
+					$("#mycontainer").html(msg);
+				},
+				error:function(){alert("error lolololo");}
+			 });
+		}		
+    
+    </script>
+</head>
+
+
+<body>
+			<div id="header_wraper">
+					<img src="images/heder_img.png" />
+			</div>
+			<div id="content_wraper">
+				<div class="gallery">
+					<a href="class.gallery.php?m=photo_slider" class="slider_btn "></a>
+					<a href="class.gallery.php?m=view" class="thumbnail_btn select"></a>
+					<br clear="all" />
+						
+			  </div>
+			  <div id = "mycontainer">
+				  <div class="photo_container">
+					<?php 
+					$i = 1;
+					$size = sizeof($photos_thumbnail);
+
+						$count = 16;
+
+					
+					$counter = 0;
+
+					foreach($photos_thumbnail as $row)
+					{
+					if($counter == $count)
+					break;
+					$counter++;
+					if( $i%4 == 0)
+					$class= " margin_r_zero";
+					else 
+					$class= "";		
+						?>
+						<div class="photo_box <?=$class?>">
+							<img src="<?php echo $row['img']; ?>" />
+						</div>
+
+						<?php
+						$i++;
+
+						}
+
+					?>
+					</div>
+						<br clear="all" />
+					<div class="load_more">
+					<?php
+					$counter = $counter + 16; ?>
+					<a href="#" onClick = "morephotos('<?=$counter?>');return false;">Load More <img src="images/load_more_btn.png" /></a>	
+					<?php
+					
+
+					?>	
+					</div>
+				</div>
+			</div>
+</body>
+</html>
